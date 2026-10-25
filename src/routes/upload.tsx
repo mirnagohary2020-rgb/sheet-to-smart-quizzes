@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
 import { FileUp, Hammer } from "lucide-react";
 import { toast } from "sonner";
-import { extractQuestions } from "@/server/extract.functions";
+import { extractQuestions } from "@/lib/ai/extract.functions";
 import { uid, useStore, type Deck } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
