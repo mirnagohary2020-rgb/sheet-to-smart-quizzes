@@ -31,7 +31,8 @@ type Settings = { shuffleQ: boolean; shuffleC: boolean; timer: "none" | "per" | 
 function QuizPage() {
   const { decks: deckParam, mode } = Route.useSearch();
   const ids = deckParam.split(",").filter(Boolean);
-  const decks = useStore((s) => s.decks.filter((d) => ids.includes(d.id)));
+  const allDecks = useStore((s) => s.decks);
+  const decks = useMemo(() => allDecks.filter((d) => ids.includes(d.id)), [allDecks, deckParam]); // eslint-disable-line react-hooks/exhaustive-deps
   const sr = useStore((s) => s.sr);
   const t = useT();
   const pool: QQ[] = useMemo(() => decks.flatMap((d) => d.questions.map((q) => ({ ...q, deckId: d.id }))), [deckParam]); // eslint-disable-line react-hooks/exhaustive-deps
