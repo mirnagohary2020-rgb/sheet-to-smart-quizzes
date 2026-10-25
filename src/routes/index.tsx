@@ -78,7 +78,7 @@ function Library() {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
+      {(dueCount > 0 || sel.length > 1) && <div className="flex flex-wrap gap-2">
         {dueCount > 0 && (
           <Button variant="hero" onClick={() => start(decks.map((d) => d.id), "sr")}>
             <Brain /> {t.review} ({dueCount})
@@ -87,7 +87,7 @@ function Library() {
         {sel.length > 1 && (
           <Button onClick={() => start(sel)}><Layers /> {t.combine} ({sel.length})</Button>
         )}
-      </div>
+      </div>}
 
       {subjects.length > 0 && (
         <div className="flex gap-2 overflow-x-auto pb-1">

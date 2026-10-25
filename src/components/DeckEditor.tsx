@@ -48,7 +48,7 @@ export function DeckEditor({ initial, onSave }: { initial: Deck; onSave: (d: Dec
 
       {qs.map((q, i) => (
         <div key={q.id} className="animate-in-up space-y-3 rounded-3xl border bg-card p-4 shadow-card">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="grid size-7 place-items-center rounded-full bg-secondary text-xs font-bold">{i + 1}</span>
             <select
               className="h-8 rounded-lg border bg-background px-2 text-sm"
