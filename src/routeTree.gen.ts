@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as DeckIdRouteImport } from './routes/deck.$id'
@@ -17,6 +18,11 @@ import { Route as DeckIdRouteImport } from './routes/deck.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShareRoute = ShareRouteImport.update({
@@ -37,12 +43,14 @@ const DeckIdRoute = DeckIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
   '/upload': typeof UploadRoute
   '/deck/$id': typeof DeckIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
   '/upload': typeof UploadRoute
   '/deck/$id': typeof DeckIdRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
   '/upload': typeof UploadRoute
   '/deck/$id': typeof DeckIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/share' | '/upload' | '/deck/$id'
+  fullPaths: '/' | '/quiz' | '/share' | '/upload' | '/deck/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/share' | '/upload' | '/deck/$id'
-  id: '__root__' | '/' | '/share' | '/upload' | '/deck/$id'
+  to: '/' | '/quiz' | '/share' | '/upload' | '/deck/$id'
+  id: '__root__' | '/' | '/quiz' | '/share' | '/upload' | '/deck/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  QuizRoute: typeof QuizRoute
   ShareRoute: typeof ShareRoute
   UploadRoute: typeof UploadRoute
   DeckIdRoute: typeof DeckIdRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/share': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  QuizRoute: QuizRoute,
   ShareRoute: ShareRoute,
   UploadRoute: UploadRoute,
   DeckIdRoute: DeckIdRoute,
