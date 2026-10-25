@@ -6,7 +6,7 @@ import { useT } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/share")({
-  validateSearch: (s: Record<string, unknown>) => ({ d: String(s.d ?? "") }),
+  validateSearch: (s: Record<string, unknown>) => ({ d: String(s["d"] ?? "") }),
   head: () => ({
     meta: [
       { title: "Shared quiz deck — QuizForge" },

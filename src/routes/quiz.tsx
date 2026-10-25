@@ -10,8 +10,8 @@ import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/quiz")({
   validateSearch: (s: Record<string, unknown>) => ({
-    decks: String(s.decks ?? ""),
-    mode: (s.mode === "sr" ? "sr" : "normal") as "sr" | "normal",
+    decks: String(s["decks"] ?? ""),
+    mode: (s["mode"] === "sr" ? "sr" : "normal") as "sr" | "normal",
   }),
   head: () => ({
     meta: [
