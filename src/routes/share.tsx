@@ -9,6 +9,8 @@ export const Route = createFileRoute("/share")({
   validateSearch: (s: Record<string, unknown>) => ({ d: String(s["d"] ?? "") }),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Shared quiz deck — QuizForge" },
       { name: "description", content: "Someone shared a QuizForge deck with you." },
       { property: "og:title", content: "Shared quiz deck — QuizForge" },

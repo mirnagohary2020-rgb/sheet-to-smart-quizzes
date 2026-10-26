@@ -15,6 +15,8 @@ export const Route = createFileRoute("/quiz")({
   }),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Quiz — QuizForge" },
       { name: "description", content: "Answer one question at a time with instant feedback." },
       { property: "og:title", content: "Quiz — QuizForge" },
@@ -76,7 +78,7 @@ function QuizPage() {
                 <button
                   key={k}
                   onClick={() => setSettings({ ...settings, timer: k, secs: k === "whole" ? 10 : 30 })}
-                  className={`rounded-xl border py-2 text-sm font-medium ${settings.timer === k ? "border-primary bg-primary text-primary-foreground" : "hover:bg-secondary"}`}
+                  className={`rounded-xl border py-2 text-sm font-medium ${settings.timer === k ? "border-accent bg-accent text-accent-foreground" : "hover:bg-secondary"}`}
                 >
                   {k === "none" ? t.none : k === "per" ? t.perQ : t.whole}
                 </button>
@@ -233,7 +235,7 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
           )}
         </div>
         <div className="h-2.5 overflow-hidden rounded-full bg-secondary">
-          <div className="h-full rounded-full bg-ember transition-all duration-500" style={{ width: `${((i + (answered ? 1 : 0)) / qs.length) * 100}%` }} />
+          <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${((i + (answered ? 1 : 0)) / qs.length) * 100}%` }} />
         </div>
       </div>
 
@@ -260,7 +262,7 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
                   disabled={answered}
                   onClick={() => answer(o)}
                   className={`flex items-center gap-3 rounded-2xl border-2 p-4 text-start text-lg font-medium transition-all ${
-                    state === "idle" ? "hover:-translate-y-0.5 hover:border-primary active:scale-[0.99]" :
+                    state === "idle" ? "hover:-translate-y-0.5 hover:border-accent active:scale-[0.99]" :
                     state === "right" ? "border-success bg-success/15" :
                     state === "wrong" ? "border-destructive bg-destructive/15" : "opacity-50"}`}
                 >
@@ -329,7 +331,7 @@ function Results({ qs, answers, flags, seconds, onRetry, onAgain }: { qs: QQ[]; 
           <div key={k} className="space-y-1">
             <div className="flex justify-between text-sm"><span className="font-medium">{k}</span><span>{v.c}/{v.n}</span></div>
             <div className="h-2 overflow-hidden rounded-full bg-secondary">
-              <div className="h-full rounded-full bg-success" style={{ width: `${(v.c / v.n) * 100}%` }} />
+              <div className="h-full rounded-full bg-accent" style={{ width: `${(v.c / v.n) * 100}%` }} />
             </div>
           </div>
         ))}

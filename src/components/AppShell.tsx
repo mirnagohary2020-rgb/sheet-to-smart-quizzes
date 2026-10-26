@@ -42,7 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-sm font-semibold"
               title={`${streak} ${t.streak}`}
             >
-              <Flame className="size-4 text-primary" /> {streak}
+              <Flame className="size-4 text-accent" /> {streak}
             </div>
             <button
               className="relative grid size-9 place-items-center rounded-full text-xs font-bold"
@@ -52,7 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 if (v && +v > 0) set({ dailyGoal: Math.round(+v) });
               }}
               style={{
-                background: `conic-gradient(var(--primary) ${pct}%, var(--secondary) 0)`,
+                background: `conic-gradient(var(--accent) ${pct}%, var(--secondary) 0)`,
               }}
             >
               <span className="grid size-7 place-items-center rounded-full bg-background">

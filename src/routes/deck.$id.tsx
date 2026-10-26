@@ -6,6 +6,8 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/deck/$id")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Edit deck — QuizForge" },
       { name: "description", content: "Edit, reorder and merge questions in your deck." },
       { property: "og:title", content: "Edit deck — QuizForge" },

@@ -18,6 +18,8 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "QuizForge — Turn practice sheets into quizzes" },
       { name: "description", content: "Upload practice sheets and practise them as interactive one-question-at-a-time quizzes." },
       { property: "og:title", content: "QuizForge — Turn practice sheets into quizzes" },
@@ -95,7 +97,7 @@ function Library() {
             <button
               key={s ?? "all"}
               onClick={() => setSubject(s)}
-              className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${subject === s ? "border-primary bg-primary text-primary-foreground" : "bg-card hover:bg-secondary"}`}
+              className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${subject === s ? "border-accent bg-accent text-accent-foreground" : "bg-card hover:bg-secondary"}`}
             >
               {s ?? t.all}
             </button>
@@ -116,13 +118,13 @@ function Library() {
             const best = d.scores.length ? Math.max(...d.scores.map((s) => s.pct)) : undefined;
             const on = sel.includes(d.id);
             return (
-              <div key={d.id} className={`animate-in-up flex flex-col gap-3 rounded-3xl border bg-card p-5 shadow-card transition-all ${on ? "ring-2 ring-primary" : ""}`}>
+              <div key={d.id} className={`animate-in-up flex flex-col gap-3 rounded-3xl border bg-card p-5 shadow-card transition-all ${on ? "ring-1 ring-accent" : ""}`}>
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
                     checked={on}
                     onChange={() => setSel(on ? sel.filter((x) => x !== d.id) : [...sel, d.id])}
-                    className="mt-1.5 size-4 accent-[var(--primary)]"
+                    className="mt-1.5 size-4 accent-[var(--accent)]"
                   />
                   <div className="min-w-0 flex-1">
                     <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-foreground">{d.subject}</span>
@@ -170,8 +172,8 @@ function Library() {
               <LineChart data={chart}>
                 <XAxis dataKey="i" stroke="var(--muted-foreground)" fontSize={12} />
                 <YAxis domain={[0, 100]} stroke="var(--muted-foreground)" fontSize={12} width={30} />
-                <Tooltip contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12 }} />
-                <Line type="monotone" dataKey="pct" stroke="var(--primary)" strokeWidth={3} dot={{ r: 3 }} />
+                <Tooltip contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10 }} />
+                <Line type="monotone" dataKey="pct" stroke="var(--accent)" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
