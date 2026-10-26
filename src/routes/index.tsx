@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { BookOpen, Brain, Download, Layers, MoreVertical, Pencil, Plus, Search, Share2, Trash2 } from "lucide-react";
+import { BookOpen, Brain, ClipboardCheck, Download, Layers, MoreVertical, Pencil, Plus, Search, Share2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { useStore, type Deck } from "@/lib/store";
@@ -83,7 +83,10 @@ function Library() {
         </div>
       )}
 
-      {(dueCount > 0 || sel.length > 1) && <div className="flex flex-wrap gap-2">
+      {decks.length > 0 && <div className="flex flex-wrap gap-2">
+        <Button variant="outline" onClick={() => nav({ to: "/mock", search: { decks: (sel.length ? sel : decks.map((d) => d.id)).join(",") } })}>
+          <ClipboardCheck /> {useStore.getState().lang === "ar" ? "اختبار تجريبي" : "Mock exam"}
+        </Button>
         {dueCount > 0 && (
           <Button variant="hero" onClick={() => start(decks.map((d) => d.id), "sr")}>
             <Brain /> {t.review} ({dueCount})
