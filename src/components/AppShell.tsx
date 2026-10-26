@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Flame, Moon, Sun, Volume2, VolumeX, Languages, Plus, Hammer } from "lucide-react";
+import { Flame, Moon, Sun, Volume2, VolumeX, Languages, Plus, Hammer, NotebookPen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { computeStreak, todayKey, useStore } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
@@ -38,6 +39,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             QuizForge
           </Link>
           <div className="ms-auto flex items-center gap-1">
+            <Button asChild size="icon" variant="ghost"><Link to="/notes" aria-label={t.notes} title={t.notes}><NotebookPen /></Link></Button>
             <div
               className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-sm font-semibold"
               title={`${streak} ${t.streak}`}
