@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MockRouteImport } from './routes/mock'
 import { Route as NotesRouteImport } from './routes/notes'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ShareRouteImport } from './routes/share'
@@ -19,6 +20,11 @@ import { Route as DeckIdRouteImport } from './routes/deck.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MockRoute = MockRouteImport.update({
+  id: '/mock',
+  path: '/mock',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotesRoute = NotesRouteImport.update({
@@ -49,6 +55,7 @@ const DeckIdRoute = DeckIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mock': typeof MockRoute
   '/notes': typeof NotesRoute
   '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mock': typeof MockRoute
   '/notes': typeof NotesRoute
   '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mock': typeof MockRoute
   '/notes': typeof NotesRoute
   '/quiz': typeof QuizRoute
   '/share': typeof ShareRoute
@@ -74,14 +83,24 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/notes' | '/quiz' | '/share' | '/upload' | '/deck/$id'
+  fullPaths:
+    '/' | '/mock' | '/notes' | '/quiz' | '/share' | '/upload' | '/deck/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/notes' | '/quiz' | '/share' | '/upload' | '/deck/$id'
-  id: '__root__' | '/' | '/notes' | '/quiz' | '/share' | '/upload' | '/deck/$id'
+  to: '/' | '/mock' | '/notes' | '/quiz' | '/share' | '/upload' | '/deck/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/mock'
+    | '/notes'
+    | '/quiz'
+    | '/share'
+    | '/upload'
+    | '/deck/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MockRoute: typeof MockRoute
   NotesRoute: typeof NotesRoute
   QuizRoute: typeof QuizRoute
   ShareRoute: typeof ShareRoute
@@ -96,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mock': {
+      id: '/mock'
+      path: '/mock'
+      fullPath: '/mock'
+      preLoaderRoute: typeof MockRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notes': {
@@ -138,6 +164,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MockRoute: MockRoute,
   NotesRoute: NotesRoute,
   QuizRoute: QuizRoute,
   ShareRoute: ShareRoute,
