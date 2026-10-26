@@ -13,6 +13,8 @@ import { DeckEditor } from "@/components/DeckEditor";
 export const Route = createFileRoute("/upload")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Upload a practice sheet — QuizForge" },
       { name: "description", content: "Upload PDF, DOCX, scans or text and extract quiz questions with AI." },
       { property: "og:title", content: "Upload a practice sheet — QuizForge" },
@@ -121,7 +123,7 @@ function UploadPage() {
         </div>
         <p className="font-display text-2xl font-bold">{t.extracting}</p>
         <div className="h-1.5 w-56 overflow-hidden rounded-full bg-secondary">
-          <div className="h-full w-1/3 animate-pulse rounded-full bg-ember" />
+          <div className="h-full w-1/3 animate-pulse rounded-full bg-accent" />
         </div>
       </div>
     );
@@ -160,7 +162,7 @@ function UploadPage() {
           if (f) handleFile(f);
         }}
         onClick={() => inp.current?.click()}
-        className={`flex cursor-pointer flex-col items-center gap-3 rounded-3xl border-2 border-dashed p-10 text-center transition-all ${drag ? "scale-[1.02] border-primary bg-accent" : "bg-card hover:border-primary/60"}`}
+        className={`flex cursor-pointer flex-col items-center gap-3 rounded-3xl border-2 border-dashed p-10 text-center transition-all ${drag ? "scale-[1.02] border-accent bg-accent" : "bg-card hover:border-accent"}`}
       >
         <div className="grid size-16 place-items-center rounded-2xl bg-ember text-primary-foreground shadow-glow">
           <FileUp className="size-7" />
