@@ -3,9 +3,10 @@ import { useMemo, useState } from "react";
 import { BookOpen, Brain, Download, Layers, MoreVertical, Pencil, Plus, Search, Share2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { useStore } from "@/lib/store";
+import { useStore, type Deck } from "@/lib/store";
 import { useT } from "@/lib/i18n";
-import { deckToHash, exportPdf } from "@/lib/share";
+import { deckToHash } from "@/lib/share";
+import { PdfExportDialog } from "@/components/PdfExportDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,6 +37,7 @@ function Library() {
   const [q, setQ] = useState("");
   const [subject, setSubject] = useState<string | null>(null);
   const [sel, setSel] = useState<string[]>([]);
+  const [exportDeck, setExportDeck] = useState<Deck | null>(null);
 
   const subjects = useMemo(() => [...new Set(decks.map((d) => d.subject))], [decks]);
   const shown = decks.filter((d) => !subject || d.subject === subject);
@@ -54,6 +56,7 @@ function Library() {
 
   return (
     <div className="space-y-6">
+      {exportDeck && <PdfExportDialog deck={exportDeck} onClose={() => setExportDeck(null)} />}
       <div className="flex items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-4xl font-bold">{t.library}</h1>
@@ -137,7 +140,7 @@ function Library() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => nav({ to: "/deck/$id", params: { id: d.id } })}><Pencil /> {t.edit}</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => exportPdf(d)}><Download /> {t.export}</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setExportDeck(d)}><Download /> {t.export}</DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={async () => {
                           const url = `${location.origin}/share?d=${deckToHash(d)}`;

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Check, Flag, Timer, X, Sparkles, RotateCcw, Home } from "lucide-react";
+import { Check, Flag, Timer, X, Sparkles, RotateCcw, Home, PenLine } from "lucide-react";
+import { NoteEditor, type NoteContext } from "@/components/NoteEditor";
 import { uid, useStore, type Question } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { beep, confetti, isCorrect, shuffle } from "@/lib/fx";
@@ -128,6 +129,8 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
   const [typed, setTyped] = useState("");
   const [flags, setFlags] = useState<Set<string>>(new Set());
   const [done, setDone] = useState(false);
+  const [noteContext, setNoteContext] = useState<NoteContext | null>(null);
+  const decks = useStore((s) => s.decks);
   const startAt = useRef(Date.now());
   const [now, setNow] = useState(Date.now());
   const qStart = useRef(Date.now());
@@ -187,7 +190,7 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
   // keyboard
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
-      if (done) return;
+      if (done || noteContext) return;
       const tag = (e.target as HTMLElement).tagName;
       if (e.key === "Enter") {
         if (answered) { e.preventDefault(); next(); }
@@ -207,7 +210,8 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
   const touch = useRef<number | null>(null);
   const toggleFlag = () => setFlags((f) => { const n = new Set(f); n.has(q.id) ? n.delete(q.id) : n.add(q.id); return n; });
 
-  if (done) return <Results qs={qs} answers={answers} flags={flags} seconds={Math.round((Date.now() - startAt.current) / 1000)} onRetry={onRetry} onAgain={onAgain} />;
+  const editor = noteContext && <NoteEditor context={noteContext} onClose={() => setNoteContext(null)} />;
+  if (done) return <><Results qs={qs} answers={answers} flags={flags} seconds={Math.round((Date.now() - startAt.current) / 1000)} onRetry={onRetry} onAgain={onAgain} />{editor}</>;
 
   const isChoice = q.type === "mcq" || q.type === "true_false";
   const ok = answered && isCorrect(picked!, q.correct_answer);
@@ -217,7 +221,7 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
       className="mx-auto max-w-2xl space-y-5"
       onTouchStart={(e) => (touch.current = e.touches[0].clientX)}
       onTouchEnd={(e) => {
-        if (touch.current === null) return;
+        if (noteContext || touch.current === null) return;
         const dx = e.changedTouches[0].clientX - touch.current;
         const rtl = document.documentElement.dir === "rtl";
         if ((rtl ? dx : -dx) > 70) next();
@@ -297,6 +301,11 @@ function Player({ qs, settings, deckIds, onRetry, onAgain }: { qs: QQ[]; setting
         </Button>
       )}
       <p className="hidden text-center text-xs text-muted-foreground sm:block">1–4 · Enter · F</p>
+      <Button size="icon" className="fixed bottom-6 end-6 z-40 size-12 rounded-full border border-accent bg-primary text-primary-foreground"
+        aria-label={t.addNote} title={t.addNote}
+        onClick={() => setNoteContext({ deckId: q.deckId, deckTitle: decks.find((d) => d.id === q.deckId)?.title ?? q.topic,
+          questionId: q.id, questionText: q.question })}><PenLine /></Button>
+      {editor}
     </div>
   );
 }

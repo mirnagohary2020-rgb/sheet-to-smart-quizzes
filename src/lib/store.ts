@@ -30,6 +30,16 @@ export interface Session {
   seconds: number;
   results: { qid: string; deckId: string; correct: boolean; topic: string; flagged: boolean }[];
 }
+export interface Note {
+  id: string;
+  deckId: string;
+  deckTitle: string;
+  createdAt: number;
+  updatedAt: number;
+  text: string;
+  questionId?: string;
+  questionText?: string;
+}
 /** Leitner-style spaced repetition box per question. */
 export interface SRItem {
   box: number; // 1..5
@@ -62,6 +72,9 @@ export function computeStreak(activity: Record<string, number>, now = new Date()
 
 interface State {
   decks: Deck[];
+  notes: Note[];
+  saveNote: (note: Note) => void;
+  deleteNote: (id: string) => void;
   sessions: Session[];
   sr: Record<string, SRItem>;
   activity: Record<string, number>;
@@ -83,6 +96,11 @@ export const useStore = create<State>()(
   persist(
     (set) => ({
       decks: [],
+      notes: [],
+      saveNote: (note) => set((s) => ({ notes: s.notes.some((n) => n.id === note.id)
+        ? s.notes.map((n) => n.id === note.id ? note : n)
+        : [note, ...s.notes] })),
+      deleteNote: (id) => set((s) => ({ notes: s.notes.filter((n) => n.id !== id) })),
       sessions: [],
       sr: {},
       activity: {},

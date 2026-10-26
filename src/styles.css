@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -216,3 +217,10 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   border-radius: var(--radius);
   box-shadow: none;
 }
+
+.note-preview .katex { direction: ltr; text-align: left; }
+.note-preview .katex-display { margin: 0.75rem 0; }
+.pdf-note-export { position: absolute; left: -10000px; top: 0; width: 680px; padding: 24px; background: #fff; color: #1a1a1a; font: 16px/1.7 "Inter", "Noto Naskh Arabic", sans-serif; }
+.pdf-note-export * { border-color: #e5dfd6; }
+.pdf-note-export h2 { font: 700 24px/1.5 "Playfair Display", "Noto Naskh Arabic", serif; }
+.pdf-note-export .pdf-note-meta { color: #6b6560; font-size: 13px; }
